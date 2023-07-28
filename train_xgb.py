@@ -5,9 +5,10 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import mean_squared_error
 import joblib
 import streamlit as st
+from data_utils import concat_dfs
 
-if __name__ == "__main__":
-    data = pd.read_excel("E:\Adani Internship Jun-July 2023\Stellar_Prediction\masterdata.xlsx")
+def train_xgb(folder_path):
+    data = concat_dfs(folder_path)
     data['FUEL CONS AE_1'] = pd.to_numeric(data['FUEL CONS AE_1'], errors='coerce')
     data.fillna(0, inplace=True)
     data['FUEL CONS AE_1'] = data['FUEL CONS AE_1'].astype(int)
