@@ -8,6 +8,7 @@ from data_utils import get_data, get_month_data
 import numpy as np
 import joblib
 from train_llm1 import train_model
+from train_xgb import train_xgb
 
 
 def execute_file(file_path, user_input=None):
@@ -40,7 +41,7 @@ def main():
     st.write("Points to note:")
     st.markdown("""
         <ul>
-            <li>Please enclose file/folder paths in double inverted comms ("")</li>
+            <li>Please do not enclose file/folder paths in double inverted comms (""). If an error appears, then try enclosing in Doule-Inverted Commas</li>
             <li>If you are uploading an excel file with one sheet, please ensure the sheet name is Sheet1</li>
         </ul>
             """, unsafe_allow_html=True)
@@ -55,9 +56,15 @@ def main():
         batch_size = int(st.number_input("Please enter the batch size (Default Value = 32)", value=32))
         learning_rate = float(st.text_input("Please enter the learning rate (Default Value = 0.001)", value=0.001))
 
-        if st.button("Start training the model") and user_input:
-                folder_path = user_input
-                train_model(folder_path, num_epochs, batch_size, learning_rate)
+        if st.button("Start training the LLM model for word prediction") and user_input:
+            folder_path = user_input
+            train_model(folder_path, num_epochs, batch_size, learning_rate)
+
+        if st.button("Start training the Fuel Prediction Model"):
+            folder_path = user_input
+            train_xgb(folder_path)
+
+
 
     if type == "Create Report":
         st.title("Create Report")
